@@ -100,7 +100,6 @@
       "type": "free"
     },
     "platform": "Javascript/Node.js",
-    "main": "xs1.js",
     "icon": "xs1.png",
     "enabled": true,
     "extIcon": "https://raw.githubusercontent.com/frankjoke/ioBroker.xs1/master/admin/xs1.png",
