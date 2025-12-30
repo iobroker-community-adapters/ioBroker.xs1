@@ -2,15 +2,10 @@
   "name": "iobroker.xs1",
   "version": "1.2.0",
   "description": "ioBroker EZcontrol XS1 Adapter",
-  "author": {
-    "name": "Frank Joke",
-    "email": "frankjoke@hotmail.com"
-  },
+  "author": "Frank Joke <frankjoke@hotmail.com>",
   "contributors": [
-    {
-      "name": "Frank Joke",
-      "email": "frankjoke@hotmail.com"
-    }
+    "Frank Joke <frankjoke@hotmail.com>",
+    "iobroker-community-adapters <iobroker-community-adapters@gmx.de>"
   ],
   "homepage": "https://github.com/frankjoke/ioBroker.xs1",
   "license": "MIT",
