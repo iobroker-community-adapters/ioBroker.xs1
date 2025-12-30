@@ -88,9 +88,7 @@ This is switched every minute and if this switching process is not reported back
 ## License
 The MIT License (MIT)
 
-
-Copyright (c) 2026 iobroker-community-adapters <iobroker-community-adapters@gmx.de>  
-Copyright (c) 2023-2024 ioBroker Community Developers <iobroker-community-adapters@gmx.de>  
+Copyright (c) 2023-2026 iobroker-community-adapters <iobroker-community-adapters@gmx.de>  
 Copyright (c) 2016 Frank Joke
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
