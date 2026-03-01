@@ -313,8 +313,18 @@ class MyAdapter {
         this.removeState = (id, opt) => this.delState(id, opt).then(() => this.delObject((delete this.states[id], id), opt));
         this.setObject = this.c2p(adapter.setObject);
         this.createState = this.c2p(adapter.createState);
-        this.extendObject = this.c2p(adapter.extendObject);
-        this.extendForeignObject = this.c2p(adapter.extendForeignObject);
+        // Robust object extension across adapter-core / js-controller versions
+        this.extendObject = adapter.extendObjectAsync ?
+            adapter.extendObjectAsync.bind(adapter) :
+            (adapter.extendObject ? this.c2p(adapter.extendObject).bind(adapter) :
+                // fallback: create/overwrite object if extendObject is not available
+                (adapter.setObjectAsync ? adapter.setObjectAsync.bind(adapter) : this.c2p(adapter.setObject).bind(adapter)));
+
+        this.extendForeignObject = adapter.extendForeignObjectAsync ?
+            adapter.extendForeignObjectAsync.bind(adapter) :
+            (adapter.extendForeignObject ? this.c2p(adapter.extendForeignObject).bind(adapter) :
+                (adapter.setForeignObjectAsync ? adapter.setForeignObjectAsync.bind(adapter) : this.c2p(adapter.setForeignObject).bind(adapter)));
+
 
         adapter.removeAllListeners();
 
