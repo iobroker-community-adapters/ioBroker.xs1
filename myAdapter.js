@@ -959,7 +959,10 @@ class MyAdapter {
         return this.extendObject(id, st)
             //            .then(x => states[id] = x)
             .then(() => st.common.state === 'state' ? this.changeState(id, value, ack, always) : true)
-            .catch(err => this.D(`MS ${this.O(err)}`, id));
+            .catch(err => {
+            // Make object creation issues visible even without debug logs
+            this.W(`MS ${this.O(err)}`, id);
+        });
     }
 
     static cleanup() {
