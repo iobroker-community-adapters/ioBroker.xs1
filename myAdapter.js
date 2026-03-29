@@ -32,13 +32,13 @@ function startAdapter(options) {
 
 // If started as allInOne/compact mode => return function to create instance
 
-const util = require('util'),
-    http = require('http'),
-    https = require('https'),
-    url = require('url'),
-    fs = require('fs'),
-    exec = require('child_process').exec,
-    assert = require('assert');
+const util = require('node:util'),
+    http = require('node:http'),
+    https = require('node:https'),
+    url = require('node:url'),
+    fs = require('node:fs'),
+    exec = require('node:child_process').exec,
+    assert = require('node:assert');
 
 class Sequence {
     constructor(p) {
@@ -299,7 +299,7 @@ class MyAdapter {
         this._http = http;
         this._https = https;
         this._url = url;
-        this._child_process = require('child_process');
+        this._child_process = require('node:child_process');
 
         this.writeFile = this.c2p(fs.writeFile);
         this.readFile = this.c2p(fs.readFile);
