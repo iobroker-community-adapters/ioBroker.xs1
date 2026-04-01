@@ -10,10 +10,10 @@
 "use strict";
 
 //var request =       require('request');
-//const util =          require('util');
-const http = require('http');
+//const util =          require('node:util');
+const http = require('node:http');
 const A = require('./myAdapter').MyAdapter;
-const EventEmitter = require('events').EventEmitter;
+const EventEmitter = require('node:events').EventEmitter;
 
 
 class MyXS1 extends EventEmitter {
