@@ -315,13 +315,18 @@ A.unload = () => {
 async function updateStates(always) {
     const tmap = new Set();
     let temp = [];
-    A.D(`Will update states fropm XS1 and delete unused and create low battery warnings`);
+    A.D(`Will update states from XS1 (fetch lists, create/update states, cleanup)`);
     A.clearStates();
     try {
         temp = await myXS1.sendXS1("get_list_actuators");
+        A.D(`Fetched actuators: ${Array.isArray(temp) ? temp.length : "n/a"}`);
+        // Small pause to reduce load on XS1
         await A.wait(100);
         const sensors = await myXS1.sendXS1("get_list_sensors");
+        A.D(`Fetched sensors: ${Array.isArray(sensors) ? sensors.length : "n/a"}`);
         temp = temp.concat(sensors);
+        A.D(`Total items to process: ${Array.isArray(temp) ? temp.length : "n/a"}`);
+
         for (const o of temp) {
             tmap.add(o.lname);
             myXS1.names.set(o.name, o);
@@ -357,7 +362,10 @@ async function updateStates(always) {
                 o.val = o.value;
             c.native.init = o;
             //            A.If('Start makeState with %O = %s', c, o.val);
-            A.D(`Will makestate I ${c}`);
+            A.D(`Will makeState I ${A.O(c)}`);
+            if (A.debug && o && o.name === 'Testschalter_3') {
+                A.I(`[TRACE] Creating Testschalter_3 -> id=${c.id} type=${c.type} role=${c.role} val=${A.O(o.val)}`);
+            }
             await A.makeState(c, o.val, true, always);
             if (o.state && Array.isArray(o.state) && o.state.length > 0) {
                 //                A.D(`Item has a state: '${o.state[0]}'`);
@@ -382,7 +390,7 @@ async function updateStates(always) {
                 };
                 for (let st of o.state)
                     val = val || (/low/i).test(st);
-                A.D(`Will makestate II ${c}`);
+                A.D(`Will makeState II ${A.O(c)}`);
                 await A.makeState(c, val, true, always);
             }
         }
