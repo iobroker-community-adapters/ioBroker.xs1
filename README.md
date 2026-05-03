@@ -86,6 +86,8 @@ This is switched every minute and if this switching process is not reported back
 * Update accepted device list and test for node v 8
 * Tarvis updated to test right repository
 
+[Older changelogs can be found there](CHANGELOG_OLD.md)
+
 ## License
 The MIT License (MIT)
 
