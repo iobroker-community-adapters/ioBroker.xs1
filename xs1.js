@@ -184,8 +184,9 @@ class MyXS1 extends EventEmitter {
             this.emit("error", err);
             return A.reject(err);
         }
-        const id = this.names.get(name).number || 0;
-        const styp = this.names.get(name).styp;
+        const item = this.names.get(name);
+        const id = item.number || 0;
+        const styp = item.styp;
         let val = parseFloat(value);
 
         if (styp === "actuator") {
@@ -194,6 +195,21 @@ class MyXS1 extends EventEmitter {
             } else if (typeof value === "number") {
                 val = value > 100 ? 100 : (value <= 0 ? 0 : parseInt(value));
             } else val = parseInt(value);
+        }
+
+        // XS1 shutters can expose dedicated on/off functions for the end positions.
+        // Prefer those functions because they retrigger the physical movement even if
+        // XS1 already reports the same logical position. If no matching function is
+        // configured, fall back to the legacy value=0/100 behaviour.
+        if (styp === "actuator" && item.type === "shutter" && (val === 0 || val === 100) && Array.isArray(item.function)) {
+            const functionType = val === 100 ? "on" : "off";
+            const functionIndex = item.function.findIndex(fn => fn && fn.type === functionType);
+
+            if (functionIndex >= 0) {
+                const xs1Function = functionIndex + 1;
+                A.I(`XS1 shutter endpoint ${name}: ${val}% -> ${functionType}, function=${xs1Function}`);
+                return this.sendXS1(`set_state_${styp}&number=${id}&function=${xs1Function}`);
+            }
         }
 
         return this.sendXS1(`set_state_${styp}&number=${id}&value=${val}`);
@@ -315,13 +331,18 @@ A.unload = () => {
 async function updateStates(always) {
     const tmap = new Set();
     let temp = [];
-    A.D(`Will update states fropm XS1 and delete unused and create low battery warnings`);
+    A.D(`Will update states from XS1 (fetch lists, create/update states, cleanup)`);
     A.clearStates();
     try {
         temp = await myXS1.sendXS1("get_list_actuators");
+        A.D(`Fetched actuators: ${Array.isArray(temp) ? temp.length : "n/a"}`);
+        // Small pause to reduce load on XS1
         await A.wait(100);
         const sensors = await myXS1.sendXS1("get_list_sensors");
+        A.D(`Fetched sensors: ${Array.isArray(sensors) ? sensors.length : "n/a"}`);
         temp = temp.concat(sensors);
+        A.D(`Total items to process: ${Array.isArray(temp) ? temp.length : "n/a"}`);
+
         for (const o of temp) {
             tmap.add(o.lname);
             myXS1.names.set(o.name, o);
@@ -357,7 +378,10 @@ async function updateStates(always) {
                 o.val = o.value;
             c.native.init = o;
             //            A.If('Start makeState with %O = %s', c, o.val);
-            A.D(`Will makestate I ${c}`);
+            A.D(`Will makeState I ${A.O(c)}`);
+            if (A.debug && o && o.name === 'Testschalter_3') {
+                A.I(`[TRACE] Creating Testschalter_3 -> id=${c.id} type=${c.type} role=${c.role} val=${A.O(o.val)}`);
+            }
             await A.makeState(c, o.val, true, always);
             if (o.state && Array.isArray(o.state) && o.state.length > 0) {
                 //                A.D(`Item has a state: '${o.state[0]}'`);
@@ -382,7 +406,7 @@ async function updateStates(always) {
                 };
                 for (let st of o.state)
                     val = val || (/low/i).test(st);
-                A.D(`Will makestate II ${c}`);
+                A.D(`Will makeState II ${A.O(c)}`);
                 await A.makeState(c, val, true, always);
             }
         }
