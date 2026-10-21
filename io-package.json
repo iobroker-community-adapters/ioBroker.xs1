@@ -54,24 +54,20 @@
         "pl": "Ze względu na nieprawidłowe wiązanie zostało ustalone. (odcinek 1)\nDodano testenvironment\nZależności zostały zaktualizowane",
         "uk": "Зафіксовано аварійне аварійне з’єднання. #2\nДодано стандартне дослідження\nОновлено залежність",
         "zh-cn": "由于不正确的约束力,事故已经确定。 行动[1]\n增加了标准试验\n已更新了属地"
-      },
-      "1.1.0": {
-        "en": "Update for Admin3 and new js-controllers compatibility",
-        "de": "Update für Admin3 und Kompatibilität mit neuen js-controller"
       }
     },
     "titleLang": {
-      "en": "EZcontrol XS1 adapter",
-      "de": "EZcontrol XS1 Adapter",
-      "ru": "EZcontrol XS1 адаптер",
-      "pt": "Adaptador EZcontrol XS1",
-      "nl": "XS1 adapter",
-      "fr": "Adaptateur EZcontrol XS1",
-      "it": "Adattatore EZcontrol XS1",
-      "es": "Adaptador EZcontrol XS1",
-      "pl": "EZPR XS1",
-      "uk": "Адаптер EZcontrol XS1",
-      "zh-cn": "EZ控制 XS1适应者"
+      "en": "EZcontrol XS1",
+      "de": "EZcontrol XS1",
+      "ru": "EZcontrol XS1",
+      "pt": "EZcontrol XS1",
+      "nl": "EZcontrol XS1",
+      "fr": "EZcontrol XS1",
+      "it": "EZcontrol XS1",
+      "es": "EZcontrol XS1",
+      "pl": "EZcontrol XS1",
+      "uk": "EZcontrol XS1",
+      "zh-cn": "EZcontrol XS1"
     },
     "desc": {
       "en": "ioBroker EZcontrol XS1 Adapter",
@@ -101,18 +97,20 @@
       "type": "free"
     },
     "platform": "Javascript/Node.js",
-    "main": "xs1.js",
     "icon": "xs1.png",
     "enabled": true,
-    "extIcon": "https://raw.githubusercontent.com/frankjoke/ioBroker.xs1/master/admin/xs1.png",
-    "readme": "https://github.com/frankjoke/ioBroker.xs1/blob/master/README.md",
+    "extIcon": "https://raw.githubusercontent.com/iobroker-community-adapters/ioBroker.xs1/master/admin/xs1.png",
+    "readme": "https://github.com/iobroker-community-adapters/ioBroker.xs1/blob/master/README.md",
     "loglevel": "info",
     "tier": 2,
     "mode": "daemon",
     "type": "iot-systems",
     "compact": true,
     "connectionType": "local",
-    "dataSource": "pull",
+    "dataSource": "poll",
+    "adminUI": {
+      "config": "html"
+    },
     "dependencies": [
       {
         "js-controller": ">=6.0.11"

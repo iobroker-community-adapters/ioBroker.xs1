@@ -664,7 +664,7 @@ class MyAdapter {
         Promise.resolve(unload ? unload(dostop) : null)
             .then(() => callback && callback())
             .catch(e => this.W(e))
-            .then(() => this.W(`Adapter will exit in latest 1 sec with code ${dostop}!`, setTimeout(ret => adapter && adapter.terminate ? adapter.terminate(ret) : process.exit(ret), 900, dostop < 0 ? 0 : dostop)));
+            .then(() => this.W(`Adapter will exit in latest 1 sec with code ${dostop}!`, setTimeout(ret => adapter && adapter.terminate(ret), 900, dostop < 0 ? 0 : dostop)));
     }
 
     static seriesOf(obj, promfn, delay) { // fun gets(item) and returns a promise

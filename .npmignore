@@ -6,3 +6,5 @@ node_modules
 .vscode
 /node_modules
 test
+.travis.yml
+CHANGELOG_OLD.md

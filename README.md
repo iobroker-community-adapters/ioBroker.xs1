@@ -59,6 +59,7 @@ This is switched every minute and if this switching process is not reported back
 - (copilot) Adapter requires admin >= 7.7.22 now
 - (copilot) Adapter requires js-controller >= 6.0.11 now
 - (copilot) Adapter requires admin >= 7.6.17 now
+- (GermanBluefox) Fixed issues detected by repository checker: repository URLs, dependency updates, io-package.json fixes (adminUI, dataSource, extIcon, titleLang, common.main, old news), removed process.exit()/process.env for compact mode, updated .npmignore (#296)
 
 ### 1.2.0 (2024-04-29)
 * (mcm1957) Adapter requires node.js >= 18 and js-controller >= 5 now
